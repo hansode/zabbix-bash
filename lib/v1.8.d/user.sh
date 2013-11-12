@@ -19,3 +19,8 @@ task_login() {
 	}
 	EOS
 }
+
+task_authenticate() {
+  # https://www.zabbix.com/documentation/1.8/api/user/authenticate
+  task_login $@
+}
