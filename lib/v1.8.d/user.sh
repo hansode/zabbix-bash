@@ -7,17 +7,13 @@
 
 task_login() {
   # https://www.zabbix.com/documentation/1.8/api/user/login
-
-  call_api -X GET --data @- \
-   $(base_uri) <<-EOS
-	{
-	  "jsonrpc": "2.0",
-	  "method" : "${namespace}.${cmd}",
-	  "params" : { "user": "${user}", "password": "${password}" },
-	  "id"     : "${id:-$(date +%Y%m%d%H%M%S.%N)}",
-	  "auth"   : ${auth:-null}
-	}
+  params=$(
+    cat <<-EOS
+	"user": "${user}",
+	"password": "${password}"
 	EOS
+  )
+  call_jsonrpc
 }
 
 task_authenticate() {
