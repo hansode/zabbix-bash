@@ -26,7 +26,7 @@ function request_header() {
 
 load_rc
 
-extract_args $@
+extract_args "$@"
 
 API_VERSION=${API_VERSION:-1.8}
 API_HOST=${API_HOST:-localhost}
