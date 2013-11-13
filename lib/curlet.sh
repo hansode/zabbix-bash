@@ -7,30 +7,31 @@ COMMAND_FRONTEND=${COMMAND_FRONTEND:-noninteractive} # [ interactive | nonintera
 
 function extract_args() {
   COMMAND_ARGS=
-  local arg= key= value= key_prefix=
+  local __arg= __key= __value= __value2=
   while [[ $# != 0 ]]; do
-    arg=$1 key= value=
-    case "${arg}" in
+    __arg=$1 __key= __value= __value2=
+    case "${__arg}" in
     --*=*)
-      key=${arg%%=*}; key=${key##--}; key=${key//-/_}
-      value=${arg##--*=}
-      eval "${key}=\"${value}\""; value="\${${key}}"; value=$(eval echo ${value}); eval "${key}=\"${value## }\""
+      __key=${__arg%%=*}; __key=${__key##--}; __key=${__key//-/_}
+      __value2=${__arg##--*=}
+      __value="${__value} ${__value2}"
+      eval "${__key}=\"${__value}\""; __value="\${${__key}}"; __value=$(eval echo ${__value}); eval "${__key}=\"${__value## }\""
       ;;
     --*)
-      key=${arg##--}; key=${key//-/_}
+      __key=${__arg##--}; __key=${__key//-/_}
       case "$2" in
       --*|"")
-        eval "${key}=1"
+        eval "${__key}=1"
         ;;
       *)
-        value="\${${key}} $2"
-        eval "${key}=\"${value}\""; value="\${${key}}"; value=$(eval echo ${value}); eval "${key}=\"${value## }\""
+        __value="\${${__key}} $2"
+        eval "${__key}=\"${__value}\""; __value="\${${__key}}"; __value=$(eval echo ${__value}); eval "${__key}=\"${__value## }\""
         shift
         ;;
       esac
       ;;
     *)
-      COMMAND_ARGS="${COMMAND_ARGS} ${arg}"
+      COMMAND_ARGS="${COMMAND_ARGS} ${__arg}"
       ;;
     esac
     shift
