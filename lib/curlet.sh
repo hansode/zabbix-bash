@@ -9,11 +9,11 @@ function extract_args() {
   COMMAND_ARGS=
   local arg= key= value= key_prefix=
   while [[ $# != 0 ]]; do
-    arg="$1" key= value=
+    arg=$1 key= value=
     case "${arg}" in
     --*=*)
       key=${arg%%=*}; key=${key##--}; key=${key//-/_}
-      value="${value} ${arg##--*=}"
+      value=${arg##--*=}
       eval "${key}=\"${value}\""; value="\${${key}}"; value=$(eval echo ${value}); eval "${key}=\"${value## }\""
       ;;
     --*)
