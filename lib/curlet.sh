@@ -80,7 +80,7 @@ function base_uri() {
 }
 
 function data_type() {
-  echo --data # --data-urlencode
+  echo --data-urlencode
 }
 
 function urlencode_data() {
@@ -116,7 +116,7 @@ function strfile_type() {
      echo "${key}@\${${key}}"
    else
      # str: key=${key}
-     echo "${key}=\${${key}}"
+     echo ${key}=\'\${${key}}\'
    fi
   "
 }
@@ -129,9 +129,9 @@ function add_param() {
    [[ -n "\${${param_key}}" ]] || return 0
 
    case "${param_type}" in
-    string) echo   "${param_key}=\${${param_key}}" ;;
+    string) echo ${param_key}=\'\${${param_key}}\' ;;
      array) local i; for i in \${${param_key}}; do echo "${param_key}[]=\${i}"; done ;;
-   strfile) strfile_type ${param_key}            ;;
+   strfile) strfile_type \"${param_key}\" ;;
   strplain) echo "\${${param_key}}" ;;
       hash) local i; for i in \${${param_key}}; do echo \${param_key}[\${i%%=*}]=\${i##*=}; done ;;
    esac
