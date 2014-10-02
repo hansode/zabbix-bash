@@ -11,7 +11,7 @@ call_jsonrpc() {
 	  "method" : "${namespace}.${cmd}",
 	  "params" : { ${params} },
 	  "id"     : "${id:-$(date +%Y%m%d%H%M%S.%N)}",
-	  "auth"   : ${auth:-null}
+	  "auth"   : "${auth:-}"
 	}
 	EOS
 }
